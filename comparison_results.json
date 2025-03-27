@@ -1,0 +1,102 @@
+{
+  "Random": {
+    "episodes": [
+      {
+        "episode": 1,
+        "score": 120,
+        "frames": 1937,
+        "time": 41.98
+      },
+      {
+        "episode": 2,
+        "score": 190,
+        "frames": 2257,
+        "time": 45.57
+      },
+      {
+        "episode": 3,
+        "score": 70,
+        "frames": 1905,
+        "time": 38.51
+      }
+    ],
+    "avg_score": 126.66666666666667,
+    "avg_frames": 2033.0,
+    "avg_time": 42.02
+  },
+  "BFS": {
+    "episodes": [
+      {
+        "episode": 1,
+        "score": 60,
+        "frames": 1929,
+        "time": 42.67
+      },
+      {
+        "episode": 2,
+        "score": 60,
+        "frames": 1929,
+        "time": 42.08
+      },
+      {
+        "episode": 3,
+        "score": 60,
+        "frames": 1929,
+        "time": 42.9
+      }
+    ],
+    "avg_score": 60.0,
+    "avg_frames": 1929.0,
+    "avg_time": 42.550000000000004
+  },
+  "DFS": {
+    "episodes": [
+      {
+        "episode": 1,
+        "score": 60,
+        "frames": 1929,
+        "time": 42.62
+      },
+      {
+        "episode": 2,
+        "score": 60,
+        "frames": 1929,
+        "time": 42.49
+      },
+      {
+        "episode": 3,
+        "score": 60,
+        "frames": 1929,
+        "time": 42.34
+      }
+    ],
+    "avg_score": 60.0,
+    "avg_frames": 1929.0,
+    "avg_time": 42.483333333333334
+  },
+  "A*": {
+    "episodes": [
+      {
+        "episode": 1,
+        "score": 170,
+        "frames": 1785,
+        "time": 39.76
+      },
+      {
+        "episode": 2,
+        "score": 220,
+        "frames": 2145,
+        "time": 47.61
+      },
+      {
+        "episode": 3,
+        "score": 140,
+        "frames": 1705,
+        "time": 37.81
+      }
+    ],
+    "avg_score": 176.66666666666666,
+    "avg_frames": 1878.3333333333333,
+    "avg_time": 41.72666666666667
+  }
+}

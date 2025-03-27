@@ -1,0 +1,6 @@
+[console_scripts]
+ale-import-roms = ale_py.scripts.import_roms:main
+
+[gym.envs]
+ALE = ale_py.gym:register_gym_envs
+__internal__ = ale_py.gym:register_legacy_gym_envs

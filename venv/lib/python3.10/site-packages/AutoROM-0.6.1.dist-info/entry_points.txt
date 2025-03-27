@@ -1,0 +1,5 @@
+[ale_py.roms]
+AutoROM = AutoROM.roms:export
+
+[console_scripts]
+AutoROM = AutoROM:cli
