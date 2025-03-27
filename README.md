@@ -19,7 +19,7 @@ This project demonstrates the implementation of various search algorithms to pla
 ### Installation
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/Ishanpathak1/pacman_ai.git
    cd pacman_search_ai
    ```
 
