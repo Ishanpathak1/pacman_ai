@@ -5,25 +5,23 @@ import numpy as np
 class BFSAgent(PacmanAgent):
     def __init__(self, display_screen=True, random_seed=42):
         super().__init__(display_screen, random_seed)
-        self.search_depth = 50  # Higher depth to fully explore the maze layer by layer
 
     def get_action(self, state):
-        """Use BFS to find the shortest path to the nearest dot (food)."""
+        """Use BFS to find the shortest path to any food dot."""
         grid = self._state_to_grid(state)
         start_pos = self._get_pacman_position(state)
-        goal_pos = self._find_nearest_dot(state)
+        food_positions = self._get_food_positions(state)
 
-        if not goal_pos:
+        if not food_positions:
             return np.random.choice(self.legal_actions)
 
-        path = self._bfs_search(grid, start_pos, goal_pos)
+        path = self._bfs_to_any_goal(grid, start_pos, food_positions)
 
         if path and len(path) > 1:
             return self._get_action_from_path(path[0], path[1])
         return np.random.choice(self.legal_actions)
 
     def _state_to_grid(self, state):
-        """Convert RGB state to 2D grid where walls are marked as 1."""
         height, width = state.shape[:2]
         grid = np.zeros((height, width), dtype=int)
         wall_mask = (state.mean(axis=2) < 50)
@@ -32,43 +30,36 @@ class BFSAgent(PacmanAgent):
 
     def _get_pacman_position(self, state):
         yellow_mask = (state[:,:,0] > 200) & (state[:,:,1] > 200) & (state[:,:,2] < 100)
-        positions = np.where(yellow_mask)
-        if len(positions[0]) > 0:
-            y = int(positions[0].mean())
-            x = int(positions[1].mean())
-            return (y, x)
+        yx = np.argwhere(yellow_mask)
+        if len(yx) > 0:
+            return tuple(np.mean(yx, axis=0).astype(int))
         return (0, 0)
 
-    def _find_nearest_dot(self, state):
+    def _get_food_positions(self, state):
         white_mask = (state[:,:,0] > 200) & (state[:,:,1] > 200) & (state[:,:,2] > 200)
-        dot_positions = np.where(white_mask)
-        pacman_pos = self._get_pacman_position(state)
+        positions = np.argwhere(white_mask)
+        return [tuple(p) for p in positions]
 
-        if len(dot_positions[0]) > 0:
-            distances = [abs(y - pacman_pos[0]) + abs(x - pacman_pos[1])
-                         for y, x in zip(dot_positions[0], dot_positions[1])]
-            index = np.argmin(distances)
-            return (dot_positions[0][index], dot_positions[1][index])
-        return None
-
-    def _bfs_search(self, grid, start, goal):
+    def _bfs_to_any_goal(self, grid, start, goals):
+        """Breadth-First Search from start to any goal."""
         queue = deque([(start, [start])])
-        visited = set([start])
+        visited = {start}
         height, width = grid.shape
+        goal_set = set(goals)
         directions = [(-1, 0), (0, 1), (1, 0), (0, -1)]
 
         while queue:
-            pos, path = queue.popleft()
-            if pos == goal:
+            current, path = queue.popleft()
+            if current in goal_set:
                 return path
-
+            y, x = current
             for dy, dx in directions:
-                ny, nx = pos[0] + dy, pos[1] + dx
-                new_pos = (ny, nx)
+                ny, nx = y + dy, x + dx
+                next_pos = (ny, nx)
                 if (0 <= ny < height and 0 <= nx < width and
-                    grid[ny, nx] == 0 and new_pos not in visited):
-                    visited.add(new_pos)
-                    queue.append((new_pos, path + [new_pos]))
+                    grid[ny, nx] == 0 and next_pos not in visited):
+                    visited.add(next_pos)
+                    queue.append((next_pos, path + [next_pos]))
         return [start]
 
     def _get_action_from_path(self, current, next_pos):
@@ -85,14 +76,12 @@ if __name__ == "__main__":
     rom_path = "venv/lib/python3.10/site-packages/ale_py/roms/ms_pacman.bin"
 
     try:
-        print("\U0001F3AE Starting Ms. Pacman with BFS Agent...")
+        print("🎮 Starting Ms. Pacman with BFS Agent...")
         agent.load_rom(rom_path)
-
         for episode in range(3):
-            print(f"\n\U0001F3AF Episode {episode + 1}")
+            print(f"\n🎯 Episode {episode + 1}")
             metrics = agent.run_episode()
-            print(f"\U0001F3C1 Episode finished | Score: {metrics['total_reward']} | Frames: {metrics['total_frames']}")
-
+            print(f"🏁 Episode finished | Score: {metrics['total_reward']} | Frames: {metrics['total_frames']}")
         print("\n✅ Testing completed!")
     except Exception as e:
         print(f"❌ Testing failed: {e}")
