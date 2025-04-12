@@ -1,0 +1,14 @@
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
+
+# Backup files created by 2to3 or editors
+*.bak
+
+# OS-specific files (optional but good practice)
+.DS_Store
+Thumbs.db
+
+# Any temporary folders you created (like 'to remove' if you still have it)
+# to remove/
