@@ -244,9 +244,104 @@ def greedyBestFirstSearch(problem, heuristic=nullHeuristic):
     # util.raiseNotDefined()
 
 
+def depthLimitedSearch(problem, limit):
+    """
+    Performs a depth-limited search from the start state up to 'limit' depth.
+
+    Returns:
+        - A solution path (list of actions) if the goal is found within the limit
+        - A special value 'cutoff' if the goal was not found but the depth limit was reached on at least one path
+        - A special value 'failure' if the entire search space reachable within the limit was explored and the goal was not found (Means no solution was exists at or above this depth)
+
+    Note: For simplicity in IDS, we can often just return the path or None. The 'cutoff'/'failure' values exist for theoretical correctness. In this implementation, IDS will be simplified to return the path or None.
+    """
+    stack = util.Stack()
+    startState = problem.getStartState()
+
+    if problem.isGoalState(startState):
+        return []
+
+    visited_at_depth = {}
+
+    stack.push((startState, [], 0))
+    visited_at_depth[startState] = 0
+
+    while not stack.isEmpty():
+        currentState, currentPath, currentDepth = stack.pop()
+
+        if problem.isGoalState(currentState):
+            return currentPath
+
+        if currentDepth < limit:
+            successors = problem.getSuccessors(currentState)
+            for nextState, action, cost in successors:
+                newDepth = currentDepth + 1
+                if nextState not in visited_at_depth or newDepth < visited_at_depth[nextState]:
+                    visited_at_depth[nextState] = newDepth
+                    newPath = currentPath + [action]
+                    stack.push((nextState, newPath, newDepth))
+    return None
+
+
+def iterativeDeepeningSearch(problem):
+    """
+    Performs Iterative Deepening Search: calls depthLimitedSearch
+    with increasing depth limits (0, 1, 2, ...) until a solution is found.
+
+    Suitable for problems with uniform step costs where BFS memory usage
+    is a concern.
+    """
+    depth_limit = 0
+    while True:
+        # print(f"IDS: Searching with depth limit {depth_limit}")
+        result = depthLimitedSearch(problem, depth_limit)
+        if result is not None:
+            return result
+        depth_limit += 1
+        if depth_limit > 500: # Example limit
+            print("IDS: Exceeded maximum depth limit, assuming no solution.")
+            return []
+
+
+def weightedAStarSearch(problem, heuristic=nullHeuristic, weight=1.5):
+    """Search the node that has the lowest combined cost and heuristic first."""
+    pq = util.PriorityQueue()
+    visited = set()
+
+    startState = problem.getStartState()
+    if problem.isGoalState(startState):
+        return []
+
+    initial_priority = 0 + weight * heuristic(startState, problem)
+    pq.push((startState, [], 0), initial_priority)  # (state, path, cost), cost for priority
+
+    while not pq.isEmpty():
+        currentState, currentPath, currentCost = pq.pop()
+        if currentState in visited:
+            continue
+
+        visited.add(currentState)
+        if problem.isGoalState(currentState):
+            return currentPath
+
+        successors = problem.getSuccessors(currentState)
+        for nextState, action, cost in successors:
+            if nextState not in visited:
+                newCost = currentCost + cost
+                newPath = currentPath + [action]
+                priority = newCost + weight * heuristic(nextState, problem)
+                pq.push((nextState, newPath, newCost), priority)
+
+    return []
+    # util.raiseNotDefined()
+
+
+
 # Abbreviations
 bfs = breadthFirstSearch
 dfs = depthFirstSearch
 astar = aStarSearch
 ucs = uniformCostSearch
 gbfs = greedyBestFirstSearch
+ids = iterativeDeepeningSearch
+wastar = weightedAStarSearch
