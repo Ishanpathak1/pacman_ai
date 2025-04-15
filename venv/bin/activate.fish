@@ -33,7 +33,7 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV /Users/ishanpathak/Downloads/pacman_ai-proshanto-pacman-classical-search/venv
+set -gx VIRTUAL_ENV /Users/ishanpathak/Desktop/pacman_search_ai/venv
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/"bin $PATH

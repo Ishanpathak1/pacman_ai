@@ -25,6 +25,9 @@
 ## How to run:
 * python pacman.py
 
+## Q learning
+* Q learning gas been implemented in q_learning_pacman, and small_l_pacman, if anyone want to work on, can take the learnings from the PKL files which are there , two mazes where it has been trained are running are tinySearch and small maze.
+
 **Examples:**
 
 ```bash
@@ -36,3 +39,4 @@ python pacman.py -l trickySearch -p SearchAgent -a fn=astar,prob=FoodSearchProbl
 
 # Run GBFS on mediumCorners to visit all corners using cornersHeuristic
 python pacman.py -l mediumCorners -p SearchAgent -a fn=gbfs,prob=CornersProblem,heuristic=cornersHeuristic
+

@@ -1,4 +1,4 @@
-#!/Users/ishanpathak/Downloads/pacman_ai-proshanto-pacman-classical-search/venv/bin/python3.13
+#!/Users/ishanpathak/Desktop/pacman_search_ai/venv/bin/python3.13
 # -*- coding: utf-8 -*-
 import re
 import sys
