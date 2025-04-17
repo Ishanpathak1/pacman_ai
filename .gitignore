@@ -39,5 +39,9 @@ env/
 
 # Data/output
 output/
-runs/
+run
+
+q_table_medium.pkl
+q_table_small.pkl
+q_table_tiny.pkl
 
