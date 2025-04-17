@@ -1,0 +1,43 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*.so
+
+# Virtual environments
+venv/
+venv-pacman/
+env/
+.venv/
+.ENV/
+*.env
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Logs
+*.log
+
+# VSCode
+.vscode/
+
+# macOS
+.DS_Store
+
+# PyCharm
+.idea/
+
+# Model files
+*.pkl
+*.pt
+*.pth
+
+# Backup files
+*~
+
+# Torch specific
+*.ckpt
+
+# Data/output
+output/
+runs/
+
